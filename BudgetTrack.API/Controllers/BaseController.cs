@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BudgetTrack.API.Exceptions;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace BudgetTrack.API.Controllers
 {
@@ -12,6 +14,14 @@ namespace BudgetTrack.API.Controllers
         }
 
         [NonAction]
-        public string GetUserId() => User.Claims.ToList().Find(x => x.Type == "UserId").Value;
+        public string GetUserId()
+        {
+            var user = User.Claims?.ToList().Find(x => x.Type == "UserId")?.Value;
+            if(user == null)
+            {
+                throw new HttpException(HttpStatusCode.NotFound, "User not found");
+            }
+            return user;
+        }
     }
 }

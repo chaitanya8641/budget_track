@@ -100,12 +100,6 @@ builder.Services.AddScoped<ITransactionsRepository, TransactionsRepository>();
 builder.Services.AddScoped<IUserTransactionService, UserTransactionService>();
 
 
-// global error handler
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add(typeof(CustomExceptionFilter));
-});
-
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -114,6 +108,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// global error handler
+app.UseMiddleware<ExceptionsHandlingMiddleware>();
+
 
 // global cors policy
 app.UseCors(x => x

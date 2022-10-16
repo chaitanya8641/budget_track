@@ -1,8 +1,10 @@
-﻿using BudgetTrack.BAL.Interfaces;
+﻿using BudgetTrack.API.Exceptions;
+using BudgetTrack.BAL.Interfaces;
 using BudgetTrack.Domain.DTOs.Transactions;
 using BudgetTrack.Domain.DTOs.Transactions.Request;
 using BudgetTrack.Domain.DTOs.Transactions.Response;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace BudgetTrack.API.Controllers
 {
@@ -17,98 +19,85 @@ namespace BudgetTrack.API.Controllers
         }
 
         [HttpGet("GetTransactions")]
-        public async Task<IActionResult> GetUserTransactions(Guid userId)
+        public async Task<IActionResult> GetUserTransactions(Guid userId, string? type)
         {
-            try
+            var transactions = await _userTransactionService.GetUserTransactions(userId);
+            if (type != null)
             {
-                return Ok(await _userTransactionService.GetUserTransactions(userId));
+                transactions = transactions.Where(x => x.Type.ToString() == type.ToString());
             }
-            catch (Exception)
-            {
-                return BadRequest("Something went wrong");
-            }
+            return Ok(transactions);
         }
 
         [HttpPost("AddTransaction")]
         public async Task<IActionResult> AddTransaction([FromBody] AddTransactionRequest AddTransactionRequest)
         {
-            TransactionCommonResponse response = new();
-            try
+            AddUserTransactionDTO userTransactionDTO = new()
             {
-                AddUserTransactionDTO userTransactionDTO = new()
-                {
-                    TransactionName = AddTransactionRequest.TransactionName,
-                    TransactionAmount = AddTransactionRequest.TransactionAmount,
-                    Type = AddTransactionRequest.Type,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
-                    UserId = Guid.Parse(GetUserId())
-                };
-                var transaction = await _userTransactionService.AddUserTransaction(userTransactionDTO);
-                if (transaction == null)
-                {
-                    return BadRequest("User transaction not created successfully");
-                }
-
-                response.TransactionId = transaction.TransactionId;
-                response.Message = "User transaction created successfully!";
-
-                return Ok(response);
-            }
-            catch (Exception)
+                TransactionName = AddTransactionRequest.TransactionName,
+                TransactionAmount = AddTransactionRequest.TransactionAmount,
+                Type = AddTransactionRequest.Type,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                UserId = Guid.Parse(GetUserId())
+            };
+            var transaction = await _userTransactionService.AddUserTransaction(userTransactionDTO);
+            if (transaction.TransactionId == Guid.Empty)
             {
-                return BadRequest("Something went wrong");
+                throw new HttpException(HttpStatusCode.NotFound, "User transaction not created successfully", $"TransactionAmount: {AddTransactionRequest.TransactionAmount}");
             }
+            TransactionCommonResponse response = new()
+            {
+                TransactionId = transaction.TransactionId,
+                Message = "User transaction created successfully!"
+            };
+
+            return Ok(response);
         }
 
         [HttpPost("UpdateTransaction")]
         public async Task<IActionResult> UpdateTransaction([FromBody] UpdateTransactionRequest updateTransactionRequest)
         {
-            TransactionCommonResponse response = new();
-            try
+
+            var transaction = await _userTransactionService.GetUserTransaction(updateTransactionRequest.TransactionId);
+            if (transaction.TransactionId == Guid.Empty)
             {
-                var transaction = await _userTransactionService.GetUserTransaction(updateTransactionRequest.TransactionId);
-                if (transaction == null)
-                {
-                    return NotFound("User transaction details not found!!");
-                }
-
-                UserUpdateTransactionDTO userTransactionDTO = new()
-                {
-                    TransactionId = transaction.TransactionId,
-                    TransactionName = updateTransactionRequest.TransactionName,
-                    TransactionAmount = updateTransactionRequest.TransactionAmount,
-                    Type = updateTransactionRequest.Type,
-                    CreatedAt = transaction.CreatedAt,
-                    UpdatedAt = DateTime.Now,
-                    UserId = Guid.Parse(GetUserId())
-                };
-                var result = await _userTransactionService.UpdateUserTransaction(userTransactionDTO);
-                if (result == null)
-                {
-                    return BadRequest("User transaction not updated!!");
-                }
-
-                response.Message = "User transaction updated sucessfully!!";
-                response.TransactionId = transaction.TransactionId;
-                return Ok(response);
-
+                throw new HttpException(HttpStatusCode.NotFound, "User transaction not found", $"Transaction Id: {updateTransactionRequest.TransactionId}");
             }
-            catch (Exception)
+
+            UserUpdateTransactionDTO userTransactionDTO = new()
             {
-                return BadRequest("Something went wrong");
-            }
+                TransactionId = transaction.TransactionId,
+                TransactionName = updateTransactionRequest.TransactionName,
+                TransactionAmount = updateTransactionRequest.TransactionAmount,
+                Type = updateTransactionRequest.Type,
+                CreatedAt = transaction.CreatedAt,
+                UpdatedAt = DateTime.Now,
+                UserId = Guid.Parse(GetUserId())
+            };
+            await _userTransactionService.UpdateUserTransaction(userTransactionDTO);
+            TransactionCommonResponse response = new()
+            {
+                Message = "User transaction updated sucessfully!!",
+                TransactionId = transaction.TransactionId
+            };
+            return Ok(response);
         }
 
         [HttpPost("DeleteTransaction")]
         public async Task<IActionResult> DeleteTransaction(Guid transactionId)
         {
-            TransactionCommonResponse response = new();
-            var transaction = await _userTransactionService.GetUserTransaction(transactionId);
-            var result = await _userTransactionService.DeleteUserTransaction(transaction);
-            response.TransactionId = transactionId;
-            response.Message = "User transaction deleted successfully!";
-            return Ok(response);
+            var result = await _userTransactionService.DeleteUserTransaction(transactionId);
+            if (result == 1)
+            {
+                TransactionCommonResponse response = new()
+                {
+                    TransactionId = transactionId,
+                    Message = "User transaction deleted successfully!"
+                };
+                return Ok(response);
+            }
+            throw new HttpException(HttpStatusCode.NotFound, "User not found", $"Transaction Id: {transactionId}");
         }
     }
 }

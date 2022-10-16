@@ -20,6 +20,6 @@ namespace BudgetTrack.BAL.Services
         public async Task<UserTransactionDTO> GetUserTransaction(Guid transactionId) => _mapper.Map<UserTransactionDTO>(await _transactionsRepository.Get(x => x.TransactionId == transactionId));
         public async Task<UserTransactionDTO> AddUserTransaction(AddUserTransactionDTO userTransactionDTO) => _mapper.Map<UserTransactionDTO>(await _transactionsRepository.Add(_mapper.Map<UserTransaction>(userTransactionDTO)));
         public async Task<UserTransactionDTO> UpdateUserTransaction(UserUpdateTransactionDTO userUpdateTransactionDTO) => _mapper.Map<UserTransactionDTO>(await _transactionsRepository.Update(_mapper.Map<UserTransaction>(userUpdateTransactionDTO)));
-        public async Task<int> DeleteUserTransaction(UserTransactionDTO userTransaction) => await _transactionsRepository.Delete(_mapper.Map<UserTransaction>(userTransaction));
+        public async Task<int> DeleteUserTransaction(Guid transactionId) => await _transactionsRepository.Delete(await _transactionsRepository.Get(x => x.TransactionId == transactionId));
     }
 }

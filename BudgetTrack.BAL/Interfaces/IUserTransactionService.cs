@@ -8,6 +8,6 @@ namespace BudgetTrack.BAL.Interfaces
         Task<UserTransactionDTO> GetUserTransaction(Guid transactionId);
         Task<UserTransactionDTO> AddUserTransaction(AddUserTransactionDTO userTransactionDTO);
         Task<UserTransactionDTO> UpdateUserTransaction(UserUpdateTransactionDTO userUpdateTransactionDTO);
-        Task<int> DeleteUserTransaction(UserTransactionDTO userTransaction);
+        Task<int> DeleteUserTransaction(Guid transactionId);
     }
 }

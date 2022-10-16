@@ -1,9 +1,11 @@
 ﻿using BudgetTrack.API.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace BudgetTrack.API.Controllers
 {
+    [Authorize]
     public class BaseController : ControllerBase
     {
         private readonly IHttpContextAccessor _httpContext;

@@ -15,6 +15,7 @@ using BudgetTrack.DAL;
 using BudgetTrack.BAL.Services;
 using BudgetTrack.DAL.Interfaces;
 using BudgetTrack.API.Exceptions;
+using BudgetTrack.Domain.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -98,7 +99,8 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ITransactionsRepository, TransactionsRepository>();
 builder.Services.AddScoped<IUserTransactionService, UserTransactionService>();
-
+builder.Services.AddScoped<IUserAccountBalanceRepository, UserAccountBalanceRepository>();
+builder.Services.AddScoped<IUserAccountBalanceService, UserAccountBalanceService>();
 
 
 var app = builder.Build();
@@ -122,6 +124,7 @@ app.UseCors(x => x
 
 
 CreateUser(app);
+CreateUserAccountBalance(app);
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -150,5 +153,36 @@ static void CreateUser(WebApplication app)
     };
 
     db?.Users?.AddRange(testUsers);
+    db?.SaveChanges();
+}
+
+static void CreateUserAccountBalance(WebApplication app)
+{
+    var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetService<BudgetContext>();
+    var userAccountBalance = db?.UserAccountBalance;
+
+    if (userAccountBalance != null)
+        db?.UserAccountBalance?.RemoveRange(userAccountBalance);
+
+    db?.SaveChanges();
+    var testUserAccountBalance = new List<UserAccountBalance>() {
+        new UserAccountBalance
+        {
+            UserAccountBalanceId = new Guid("3fa85f64-5717-4562-b3fc-3c963f66afb7"),
+            UserId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+            Type = TransactionType.Debit,
+            AccounrBalance = 34000
+        },
+        new UserAccountBalance
+        {
+            UserAccountBalanceId = new Guid("3fa85f64-7777-4562-b3fc-3c963f66afb7"),
+            UserId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+            Type = TransactionType.Credit,
+            AccounrBalance = 50000
+        }
+    };
+
+    db?.UserAccountBalance?.AddRange(testUserAccountBalance);
     db?.SaveChanges();
 }

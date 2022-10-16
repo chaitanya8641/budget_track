@@ -11,7 +11,8 @@ namespace BudgetTrack.Data
         }
 
         public DbSet<User> Users { get; set; }
-        public virtual DbSet<UserTransaction> UserTransactions { get; set; }
+        public DbSet<UserAccountBalance> UserAccountBalance { get; set; }
+        public DbSet<UserTransaction> UserTransactions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

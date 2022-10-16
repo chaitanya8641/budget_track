@@ -3,6 +3,7 @@ using BudgetTrack.BAL.Interfaces;
 using BudgetTrack.Domain.DTOs.Transactions;
 using BudgetTrack.Domain.DTOs.Transactions.Request;
 using BudgetTrack.Domain.DTOs.Transactions.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,6 +11,7 @@ namespace BudgetTrack.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BudgetController : BaseController
     {
         private readonly IUserTransactionService _userTransactionService;

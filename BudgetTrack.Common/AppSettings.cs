@@ -1,4 +1,4 @@
-﻿namespace BudgetTrack.API.Helper
+﻿namespace BudgetTrack.Common
 {
     public class AppSettings
     {

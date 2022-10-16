@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
@@ -14,7 +16,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BudgetTrack.BAL\BudgetTrack.BAL.csproj" />
+    <ProjectReference Include="..\BudgetTrack.Common\BudgetTrack.Common.csproj" />
     <ProjectReference Include="..\BudgetTrack.Data\BudgetTrack.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
   </ItemGroup>
 
 </Project>

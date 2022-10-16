@@ -4,11 +4,16 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using BudgetTrack.API.Helper;
 using BudgetTrack.Data;
 using BudgetTrack.Domain.Entities;
 using BudgetTrack.API.Services.Interfaces;
 using BudgetTrack.API.Services;
+using BudgetTrack.Common;
+using BudgetTrack.API.Mapping;
+using BudgetTrack.BAL.Interfaces;
+using BudgetTrack.DAL;
+using BudgetTrack.BAL.Services;
+using BudgetTrack.DAL.Interfaces;
 using BudgetTrack.API.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,7 +56,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "TFG API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "BudgetTracker API", Version = "v1" });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -82,14 +87,27 @@ builder.Services.AddSwaggerGen(c =>
 //Dependencies
 builder.Services.AddDbContext<BudgetContext>(options =>
 {
-    options.UseInMemoryDatabase("WookieBooks");
+    options.UseInMemoryDatabase("BudgetTracker");
     options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
 });
-builder.Services.AddEffCollections();
+
+
+builder.Services.AddDbContext<BudgetContext>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ITransactionsRepository, TransactionsRepository>();
+builder.Services.AddScoped<IUserTransactionService, UserTransactionService>();
+
+
+// global error handler
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(typeof(CustomExceptionFilter));
+});
+
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -103,9 +121,6 @@ app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader()
     .AllowCredentials());
-
-// global error handler
-app.UseMiddleware<ErrorHandlerMiddleware>();
 
 
 CreateUser(app);
@@ -123,14 +138,14 @@ static void CreateUser(WebApplication app)
     var db = scope.ServiceProvider.GetService<BudgetContext>();
     var users = db?.Users;
 
-    if(users != null)
+    if (users != null)
         db?.Users?.RemoveRange(users);
 
     db?.SaveChanges();
     var testUsers = new List<User>() {
         new User
         {
-            Id = 1,
+            Id = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
             UserName = "HGibbs",
             Password = "password"
         }

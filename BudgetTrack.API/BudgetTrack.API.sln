@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTrack.DAL", "..\Budge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTrack.BAL", "..\BudgetTrack.BAL\BudgetTrack.BAL.csproj", "{B213912F-6C6B-4D39-B3CD-10C6C69C46E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTrack.Common", "..\BudgetTrack.Common\BudgetTrack.Common.csproj", "{0D6EB322-D74A-4885-94F9-BE07D74DB780}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{B213912F-6C6B-4D39-B3CD-10C6C69C46E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B213912F-6C6B-4D39-B3CD-10C6C69C46E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B213912F-6C6B-4D39-B3CD-10C6C69C46E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D6EB322-D74A-4885-94F9-BE07D74DB780}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D6EB322-D74A-4885-94F9-BE07D74DB780}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D6EB322-D74A-4885-94F9-BE07D74DB780}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D6EB322-D74A-4885-94F9-BE07D74DB780}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

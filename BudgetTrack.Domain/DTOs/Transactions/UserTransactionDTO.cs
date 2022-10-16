@@ -1,11 +1,9 @@
 ﻿using BudgetTrack.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
 
-namespace BudgetTrack.Domain.Entities
+namespace BudgetTrack.Domain.DTOs.Transactions
 {
-    public class UserTransaction
+    public class UserTransactionDTO
     {
-        [Key]
         public Guid TransactionId { get; set; }
         public Guid UserId { get; set; }
         public string TransactionName { get; set; } = null!;

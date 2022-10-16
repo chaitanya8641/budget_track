@@ -30,14 +30,14 @@ namespace BudgetTrack.DAL
 
         public async Task<TEntity> Update(TEntity entity)
         {
-            _budgetDbContext.Update(entity);
+            _budgetDbContext.Set<TEntity>().Update(entity);
             await _budgetDbContext.SaveChangesAsync();
             return entity;
         }
 
         public async Task<List<TEntity>> UpdateRange(List<TEntity> entity)
         {
-            _budgetDbContext.UpdateRange(entity);
+            _budgetDbContext.Set<TEntity>().UpdateRange(entity);
             await _budgetDbContext.SaveChangesAsync();
             return entity;
         }
@@ -47,7 +47,6 @@ namespace BudgetTrack.DAL
             _budgetDbContext.Remove(entity);
             return await _budgetDbContext.SaveChangesAsync();
         }
-
 
         public async Task<List<TEntity>> GetList(Expression<Func<TEntity, bool>> filter)
         {

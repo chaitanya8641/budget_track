@@ -1,12 +1,10 @@
-﻿using BudgetTrack.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿
+using BudgetTrack.Domain.Enums;
 
-namespace BudgetTrack.Domain.Entities
+namespace BudgetTrack.Domain.DTOs.Transactions
 {
-    public class UserTransaction
+    public  class AddUserTransactionDTO
     {
-        [Key]
-        public Guid TransactionId { get; set; }
         public Guid UserId { get; set; }
         public string TransactionName { get; set; } = null!;
         public DateTime CreatedAt { get; set; }
@@ -14,4 +12,9 @@ namespace BudgetTrack.Domain.Entities
         public decimal TransactionAmount { get; set; }
         public TransactionType Type { get; set; }
     }
+    public class UserUpdateTransactionDTO : AddUserTransactionDTO
+    {
+        public Guid TransactionId { get; set; }
+    }
+
 }

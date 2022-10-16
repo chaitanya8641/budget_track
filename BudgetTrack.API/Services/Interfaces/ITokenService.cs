@@ -1,5 +1,5 @@
-﻿using BudgetTrack.Domain.Requests;
-using BudgetTrack.Domain.Responses;
+﻿using BudgetTrack.Domain.DTOs.Auth.Request;
+using BudgetTrack.Domain.DTOs.Auth.Response;
 
 namespace BudgetTrack.API.Services.Interfaces
 {

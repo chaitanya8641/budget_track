@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BudgetTrack.Domain.Requests
+namespace BudgetTrack.Domain.DTOs.Auth.Request
 {
     public class AuthRequest
     {

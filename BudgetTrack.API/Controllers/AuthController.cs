@@ -1,6 +1,6 @@
 ﻿using BudgetTrack.API.Services.Interfaces;
-using BudgetTrack.Domain.Requests;
-using BudgetTrack.Domain.Responses;
+using BudgetTrack.Domain.DTOs.Auth.Request;
+using BudgetTrack.Domain.DTOs.Auth.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetTrack.API.Controllers
@@ -19,16 +19,8 @@ namespace BudgetTrack.API.Controllers
         [HttpPost("authenticate")]
         public async Task<ActionResult<AuthResponse>> Authenticate([FromBody] AuthRequest request)
         {
-            try
-            {
-                var response = await _tokenService.Authenticate(request);
-                return Ok(response);
-
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message.ToString());
-            }
+            var response = await _tokenService.Authenticate(request);
+            return Ok(response);
         }
     }
 }

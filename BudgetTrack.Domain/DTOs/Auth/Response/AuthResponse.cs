@@ -1,4 +1,4 @@
-﻿namespace BudgetTrack.Domain.Responses
+﻿namespace BudgetTrack.Domain.DTOs.Auth.Response
 {
     public class AuthResponse
     {

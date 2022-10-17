@@ -124,6 +124,7 @@ app.UseCors(x => x
 
 
 CreateUser(app);
+CreateUserTransaction(app);
 CreateUserAccountBalance(app);
 app.UseHttpsRedirection();
 app.UseAuthentication();
@@ -153,6 +154,33 @@ static void CreateUser(WebApplication app)
     };
 
     db?.Users?.AddRange(testUsers);
+    db?.SaveChanges();
+}
+
+static void CreateUserTransaction(WebApplication app)
+{
+    var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetService<BudgetContext>();
+    var userTransaction = db?.UserTransactions;
+
+    if (userTransaction != null)
+        db?.UserTransactions?.RemoveRange(userTransaction);
+
+    db?.SaveChanges();
+    var testUserTransaction = new List<UserTransaction>() {
+        new UserTransaction
+        {
+            TransactionId = new Guid("3fa85f64-5717-9999-b3fc-2c963f66afa6"),
+            UserId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+            TransactionName = "Online",
+            CreatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now,
+            TransactionAmount = 100,
+            Type = TransactionType.Debit
+        }
+    };
+
+    db?.UserTransactions?.AddRange(testUserTransaction);
     db?.SaveChanges();
 }
 
@@ -186,3 +214,5 @@ static void CreateUserAccountBalance(WebApplication app)
     db?.UserAccountBalance?.AddRange(testUserAccountBalance);
     db?.SaveChanges();
 }
+
+public partial class Program { }

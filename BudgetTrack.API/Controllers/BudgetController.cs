@@ -86,7 +86,7 @@ namespace BudgetTrack.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("DeleteTransaction")]
+        [HttpDelete("DeleteTransaction")]
         public async Task<IActionResult> DeleteTransaction(Guid transactionId)
         {
             var result = await _userTransactionService.DeleteUserTransaction(transactionId);

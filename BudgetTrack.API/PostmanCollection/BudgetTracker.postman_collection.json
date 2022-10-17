@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "044dbf6b-6520-41d6-9289-1fd23f5595c0",
+		"name": "BudgetTracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "UserTransactions",
+			"item": [
+				{
+					"name": "{{localBaseUrl}}/Budget/GetTransactions?userId=3fa85f64-5717-4562-b3fc-2c963f66afa6",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localBaseUrl}}/Budget/GetTransactions?userId=3fa85f64-5717-4562-b3fc-2c963f66afa6",
+							"host": [
+								"{{localBaseUrl}}"
+							],
+							"path": [
+								"Budget",
+								"GetTransactions"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{localBaseUrl}}/Budget/AddTransaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n        \"transactionName\": \"online store\",\r\n        \"transactionAmount\": 100,\r\n        \"type\": 0\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localBaseUrl}}/Budget/AddTransaction",
+							"host": [
+								"{{localBaseUrl}}"
+							],
+							"path": [
+								"Budget",
+								"AddTransaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{localBaseUrl}}/Budget/UpdateTransaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"transactionId\": \"3fa85f64-5717-9999-b3f7-2c963f66afa6\",\r\n  \"transactionName\": \"online\",\r\n  \"transactionAmount\": 50,\r\n  \"type\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localBaseUrl}}/Budget/UpdateTransaction",
+							"host": [
+								"{{localBaseUrl}}"
+							],
+							"path": [
+								"Budget",
+								"UpdateTransaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{localBaseUrl}}/Budget/DeleteTransaction?transactionId=3fa85f64-5717-4562-b3fc-2c963f66afa7",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localBaseUrl}}/Budget/DeleteTransaction",
+							"host": [
+								"{{localBaseUrl}}"
+							],
+							"path": [
+								"Budget",
+								"DeleteTransaction"
+							],
+							"query": [
+								{
+									"key": "transactionId",
+									"value": "fbd1ff33-fd59-4d61-87de-4823394136ad",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UserAccount",
+			"item": [
+				{
+					"name": "{{localBaseUrl}}/Account/GetAccountBalance?userId=3fa85f64-5717-4562-b3fc-2c963f66afa6&type=Debit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localBaseUrl}}/Account/GetAccountBalance?userId=3fa85f64-5717-4562-b3fc-2c963f66afa6&type=Debit",
+							"host": [
+								"{{localBaseUrl}}"
+							],
+							"path": [
+								"Account",
+								"GetAccountBalance"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+								},
+								{
+									"key": "type",
+									"value": "Debit"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "{{localBaseUrl}}/auth/authenticate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"authToken\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"HGibbs\",\r\n  \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localBaseUrl}}/auth/authenticate",
+					"host": [
+						"{{localBaseUrl}}"
+					],
+					"path": [
+						"auth",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "localBaseUrl",
+			"value": "https://localhost:7089/api",
+			"type": "default"
+		}
+	]
+}

@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTrack.API", "BudgetTrack.API.csproj", "{A9EC684A-341F-457D-A00E-82C50C495C19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTrack.API", "BudgetTrack.API.csproj", "{A9EC684A-341F-457D-A00E-82C50C495C19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTrack.Domain", "..\BudgetTrack.Domain\BudgetTrack.Domain.csproj", "{4EF39E07-917A-4310-BD13-23EA8AE82F99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTrack.Domain", "..\BudgetTrack.Domain\BudgetTrack.Domain.csproj", "{4EF39E07-917A-4310-BD13-23EA8AE82F99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTrack.Data", "..\BudgetTrack.Data\BudgetTrack.Data.csproj", "{ACEC121F-B0CF-4634-B7C2-DDA7C0BBC54E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTrack.Data", "..\BudgetTrack.Data\BudgetTrack.Data.csproj", "{ACEC121F-B0CF-4634-B7C2-DDA7C0BBC54E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTrack.DAL", "..\BudgetTrack.DAL\BudgetTrack.DAL.csproj", "{BB8356B0-5F55-4C94-AC69-64EC1A0D9B7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTrack.DAL", "..\BudgetTrack.DAL\BudgetTrack.DAL.csproj", "{BB8356B0-5F55-4C94-AC69-64EC1A0D9B7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTrack.BAL", "..\BudgetTrack.BAL\BudgetTrack.BAL.csproj", "{B213912F-6C6B-4D39-B3CD-10C6C69C46E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTrack.BAL", "..\BudgetTrack.BAL\BudgetTrack.BAL.csproj", "{B213912F-6C6B-4D39-B3CD-10C6C69C46E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTrack.Common", "..\BudgetTrack.Common\BudgetTrack.Common.csproj", "{0D6EB322-D74A-4885-94F9-BE07D74DB780}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetTrack.Common", "..\BudgetTrack.Common\BudgetTrack.Common.csproj", "{0D6EB322-D74A-4885-94F9-BE07D74DB780}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTrack.Tests", "..\BudgetTrack.Tests\BudgetTrack.Tests.csproj", "{FC8E28CE-C88F-4269-8A11-E8847ECE2F1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{0D6EB322-D74A-4885-94F9-BE07D74DB780}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D6EB322-D74A-4885-94F9-BE07D74DB780}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D6EB322-D74A-4885-94F9-BE07D74DB780}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC8E28CE-C88F-4269-8A11-E8847ECE2F1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC8E28CE-C88F-4269-8A11-E8847ECE2F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC8E28CE-C88F-4269-8A11-E8847ECE2F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC8E28CE-C88F-4269-8A11-E8847ECE2F1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

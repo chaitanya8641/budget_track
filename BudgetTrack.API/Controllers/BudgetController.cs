@@ -49,7 +49,7 @@ namespace BudgetTrack.API.Controllers
             };
 
             var transaction = await _userTransactionService.AddUserTransaction(userTransactionDTO);
-            var isAccountBalanceUpdate = await UpdateAccountBalance(AddTransactionRequest.TransactionAmount, transaction.UserId);
+            var isAccountBalanceUpdate = await UpdateAccountBalance(transaction);
             if (transaction.TransactionId == Guid.Empty)
             {
                 throw new HttpException(HttpStatusCode.NotFound, "User transaction not created successfully", $"TransactionAmount: {AddTransactionRequest.TransactionAmount}");
@@ -81,12 +81,13 @@ namespace BudgetTrack.API.Controllers
             };
 
             var transaction = await _userTransactionService.AddUserTransaction(userTransactionDTO);
-            var isAccountBalanceUpdate = await UpdateAccountBalance(AddTransactionRequest.TransactionAmount, transaction.UserId);
             if (transaction.TransactionId == Guid.Empty)
             {
                 throw new HttpException(HttpStatusCode.NotFound, "User transaction not created successfully", $"TransactionAmount: {AddTransactionRequest.TransactionAmount}");
             }
-            else if (!isAccountBalanceUpdate)
+
+            var isAccountBalanceUpdate = await UpdateAccountBalance(transaction);
+            if (!isAccountBalanceUpdate)
             {
                 throw new HttpException(HttpStatusCode.BadRequest, "Account balance not upfated successfully", $"TransactionAmount: {transaction.TransactionId}");
             }
@@ -146,11 +147,20 @@ namespace BudgetTrack.API.Controllers
             throw new HttpException(HttpStatusCode.NotFound, "User not found", $"Transaction Id: {transactionId}");
         }
 
-        private async Task<bool> UpdateAccountBalance(decimal transactionAmount, Guid userId)
+        private async Task<bool> UpdateAccountBalance(UserTransactionDTO transaction)
         {
-            var accountBalance = await _userAccountBalanceService.GetDebitAccountBalance(userId);
-            accountBalance.AccountBalance -= transactionAmount;
-            return await _userAccountBalanceService.UpdateAccountBalance(accountBalance);
+            if (transaction.Type.ToLower() == TransactionType.Debit.ToString().ToLower())
+            {
+                var accountBalance = await _userAccountBalanceService.GetDebitAccountBalance(transaction.UserId);
+                accountBalance.AccountBalance -= transaction.TransactionAmount;
+                return await _userAccountBalanceService.UpdateAccountBalance(accountBalance);
+            }
+            else
+            {
+                var accountBalance = await _userAccountBalanceService.GetCreditAccountBalance(transaction.UserId);
+                accountBalance.AccountBalance -= transaction.TransactionAmount;
+                return await _userAccountBalanceService.UpdateAccountBalance(accountBalance);
+            }
         }
 
     }

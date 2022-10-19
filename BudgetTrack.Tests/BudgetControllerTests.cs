@@ -18,9 +18,9 @@ namespace BudgetTrack.Tests
         }
 
         [Fact]
-        public async Task GetAllTransactions_WhenCalled_ReturnsAllUserTransactions()
+        public async Task GetAllTransactions_WhenCalledValidUser_ReturnsAllUserTransactions()
         {
-            await PerformLogin("HGibbs", "password");
+            await PerformLogin("HGibbs", "Testing@01");
             var response = await _client.GetAsync("/api/Budget/GetTransactions?userId=3fa85f64-5717-4562-b3fc-2c963f66afa6");
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
@@ -30,9 +30,17 @@ namespace BudgetTrack.Tests
         }
 
         [Fact]
+        public async Task GetAllTransactions_WhenCalledInvalidUser_ReturnsAllUserTransactions()
+        {
+            await PerformLogin("HGibbs", "Testing01");
+            var response = await _client.GetAsync("/api/Budget/GetTransactions?userId=3fa85f64-5717-4562-b3fc-2c963f66afa6");
+            Assert.Equal("Unauthorized", response?.ReasonPhrase?.ToString());
+        }
+
+        [Fact]
         public async Task AddDebitTransaction_WhenCalledWithValidUser_ReturnsSuccess()
         {
-            await PerformLogin("HGibbs", "password");
+            await PerformLogin("HGibbs", "Testing@01");
             var addTransation = new AddUserTransactionDTO { TransactionName = "Online", TransactionAmount = 100};
             var response = await _client.PostAsJsonAsync<AddUserTransactionDTO>("/api/Budget/AddDebitTransaction", addTransation);
             Assert.True(response.IsSuccessStatusCode);
@@ -41,7 +49,7 @@ namespace BudgetTrack.Tests
         [Fact]
         public async Task AddCreditTransaction_WhenCalledWithValidUser_ReturnsSuccess()
         {
-            await PerformLogin("HGibbs", "password");
+            await PerformLogin("HGibbs", "Testing@01");
             var addTransation = new AddUserTransactionDTO { TransactionName = "Online", TransactionAmount = 100 };
             var response = await _client.PostAsJsonAsync<AddUserTransactionDTO>("/api/Budget/AddCreditTransaction", addTransation);
             Assert.True(response.IsSuccessStatusCode);
@@ -51,7 +59,7 @@ namespace BudgetTrack.Tests
         [Fact]
         public async Task UpdateTransaction_WhenCalledWithValidTransactionId_ReturnsSuccess()
         {
-            await PerformLogin("HGibbs", "password");
+            await PerformLogin("HGibbs", "Testing@01");
             var addTransation = new UserUpdateTransactionDTO {TransactionId = Guid.Parse("3fa85f64-5717-9999-b3fc-2c963f66afa6") ,TransactionName = "Online2", TransactionAmount = 100 };
             var response = await _client.PostAsJsonAsync<UserUpdateTransactionDTO>("/api/Budget/UpdateTransaction", addTransation);
             Assert.True(response.IsSuccessStatusCode);
@@ -60,7 +68,7 @@ namespace BudgetTrack.Tests
         [Fact]
         public async Task UpdateTransaction_WhenCalledWithInValidTransactionId_ReturnsFailure()
         {
-            await PerformLogin("HGibbs", "password");
+            await PerformLogin("HGibbs", "Testing@01");
             var addTransation = new UserUpdateTransactionDTO { TransactionId = Guid.Parse("3fa85f64-5717-9999-b3f7-2c963f66afa6"), TransactionName = "Online2", TransactionAmount = 100 };
             var response = await _client.PostAsJsonAsync<AddUserTransactionDTO>("/api/Budget/UpdateTransaction", addTransation);
             Assert.Equal("Not Found", response.ReasonPhrase?.ToString());
@@ -69,7 +77,7 @@ namespace BudgetTrack.Tests
         [Fact]
         public async Task UpdateTransaction_WhenCalledWithInValidTransactionId_ReturnsFailure2()
         {
-            await PerformLogin("HGibbs", "password");
+            await PerformLogin("HGibbs", "Testing01");
             var addTransation = new UserUpdateTransactionDTO { TransactionId = Guid.Parse("3fa85f64-5717-9999-b3f7-2c963f66afa6"), TransactionName = "Online2", TransactionAmount = 100 };
             var response = await _client.PostAsJsonAsync<AddUserTransactionDTO>("/api/Budget/UpdateTransaction", addTransation);
             Assert.False(response.IsSuccessStatusCode);

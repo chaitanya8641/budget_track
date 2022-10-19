@@ -12,6 +12,6 @@ namespace BudgetTrack.Domain.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public decimal TransactionAmount { get; set; }
-        public TransactionType Type { get; set; }
+        public string Type { get; set; } = null!;
     }
 }

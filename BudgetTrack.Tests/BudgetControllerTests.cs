@@ -30,11 +30,20 @@ namespace BudgetTrack.Tests
         }
 
         [Fact]
-        public async Task AddTransaction_WhenCalledWithValidUser_ReturnsSuccess()
+        public async Task AddDebitTransaction_WhenCalledWithValidUser_ReturnsSuccess()
         {
             await PerformLogin("HGibbs", "password");
-            var addTransation = new AddUserTransactionDTO { TransactionName = "Online", TransactionAmount = 100, Type = 0 };
-            var response = await _client.PostAsJsonAsync<AddUserTransactionDTO>("/api/Budget/AddTransaction", addTransation);
+            var addTransation = new AddUserTransactionDTO { TransactionName = "Online", TransactionAmount = 100};
+            var response = await _client.PostAsJsonAsync<AddUserTransactionDTO>("/api/Budget/AddDebitTransaction", addTransation);
+            Assert.True(response.IsSuccessStatusCode);
+        }
+
+        [Fact]
+        public async Task AddCreditTransaction_WhenCalledWithValidUser_ReturnsSuccess()
+        {
+            await PerformLogin("HGibbs", "password");
+            var addTransation = new AddUserTransactionDTO { TransactionName = "Online", TransactionAmount = 100 };
+            var response = await _client.PostAsJsonAsync<AddUserTransactionDTO>("/api/Budget/AddCreditTransaction", addTransation);
             Assert.True(response.IsSuccessStatusCode);
         }
 
@@ -43,7 +52,7 @@ namespace BudgetTrack.Tests
         public async Task UpdateTransaction_WhenCalledWithValidTransactionId_ReturnsSuccess()
         {
             await PerformLogin("HGibbs", "password");
-            var addTransation = new UserUpdateTransactionDTO {TransactionId = Guid.Parse("3fa85f64-5717-9999-b3fc-2c963f66afa6") ,TransactionName = "Online2", TransactionAmount = 100, Type = 0 };
+            var addTransation = new UserUpdateTransactionDTO {TransactionId = Guid.Parse("3fa85f64-5717-9999-b3fc-2c963f66afa6") ,TransactionName = "Online2", TransactionAmount = 100 };
             var response = await _client.PostAsJsonAsync<UserUpdateTransactionDTO>("/api/Budget/UpdateTransaction", addTransation);
             Assert.True(response.IsSuccessStatusCode);
         }
@@ -52,7 +61,7 @@ namespace BudgetTrack.Tests
         public async Task UpdateTransaction_WhenCalledWithInValidTransactionId_ReturnsFailure()
         {
             await PerformLogin("HGibbs", "password");
-            var addTransation = new UserUpdateTransactionDTO { TransactionId = Guid.Parse("3fa85f64-5717-9999-b3f7-2c963f66afa6"), TransactionName = "Online2", TransactionAmount = 100, Type = 0 };
+            var addTransation = new UserUpdateTransactionDTO { TransactionId = Guid.Parse("3fa85f64-5717-9999-b3f7-2c963f66afa6"), TransactionName = "Online2", TransactionAmount = 100 };
             var response = await _client.PostAsJsonAsync<AddUserTransactionDTO>("/api/Budget/UpdateTransaction", addTransation);
             Assert.Equal("Not Found", response.ReasonPhrase?.ToString());
         }

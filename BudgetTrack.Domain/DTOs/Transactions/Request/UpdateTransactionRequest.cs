@@ -8,6 +8,5 @@ namespace BudgetTrack.Domain.DTOs.Transactions.Request
         public Guid TransactionId { get; set; }
         public string TransactionName { get; set; } = null!;
         public decimal TransactionAmount { get; set; }
-        public TransactionType Type { get; set; }
     }
 }

@@ -24,26 +24,20 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{localBaseUrl}}/Budget/GetTransactions?userId=3fa85f64-5717-4562-b3fc-2c963f66afa6",
+							"raw": "{{localBaseUrl}}/Budget/GetTransactions",
 							"host": [
 								"{{localBaseUrl}}"
 							],
 							"path": [
 								"Budget",
 								"GetTransactions"
-							],
-							"query": [
-								{
-									"key": "userId",
-									"value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "{{localBaseUrl}}/Budget/AddTransaction",
+					"name": "{{localBaseUrl}}/Budget/AddDebitTransaction",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -59,7 +53,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "  {\r\n        \"transactionName\": \"online store\",\r\n        \"transactionAmount\": 100,\r\n        \"type\": 0\r\n    }",
+							"raw": "  {\r\n        \"transactionName\": \"online store\",\r\n        \"transactionAmount\": 100\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -67,13 +61,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{localBaseUrl}}/Budget/AddTransaction",
+							"raw": "{{localBaseUrl}}/Budget/AddDebitTransaction",
 							"host": [
 								"{{localBaseUrl}}"
 							],
 							"path": [
 								"Budget",
-								"AddTransaction"
+								"AddDebitTransaction"
 							]
 						}
 					},
@@ -96,7 +90,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"transactionId\": \"3fa85f64-5717-9999-b3f7-2c963f66afa6\",\r\n  \"transactionName\": \"online\",\r\n  \"transactionAmount\": 50,\r\n  \"type\": 0\r\n}",
+							"raw": "{\r\n  \"transactionId\": \"4e76c3ac-fd52-410c-878c-99643c2ee2f5\",\r\n  \"transactionName\": \"online\",\r\n  \"transactionAmount\": 501\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -143,9 +137,46 @@
 							"query": [
 								{
 									"key": "transactionId",
-									"value": "fbd1ff33-fd59-4d61-87de-4823394136ad",
+									"value": "3fa85f64-5717-9999-b3fc-2c963f66afa6",
 									"disabled": true
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{localBaseUrl}}/Budget/AddCreditTransaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n        \"transactionName\": \"online store\",\r\n        \"transactionAmount\": 1001\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localBaseUrl}}/Budget/AddCreditTransaction",
+							"host": [
+								"{{localBaseUrl}}"
+							],
+							"path": [
+								"Budget",
+								"AddCreditTransaction"
 							]
 						}
 					},
@@ -172,23 +203,41 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{localBaseUrl}}/Account/GetAccountBalance?userId=3fa85f64-5717-4562-b3fc-2c963f66afa6&type=Debit",
+							"raw": "{{localBaseUrl}}/Account/GetDebitAccountBalance",
 							"host": [
 								"{{localBaseUrl}}"
 							],
 							"path": [
 								"Account",
-								"GetAccountBalance"
-							],
-							"query": [
+								"GetDebitAccountBalance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{localBaseUrl}}/Account/GetCreditAccountBalance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
 								{
-									"key": "userId",
-									"value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-								},
-								{
-									"key": "type",
-									"value": "Debit"
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
 								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localBaseUrl}}/Account/GetCreditAccountBalance",
+							"host": [
+								"{{localBaseUrl}}"
+							],
+							"path": [
+								"Account",
+								"GetCreditAccountBalance"
 							]
 						}
 					},
@@ -215,7 +264,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"HGibbs\",\r\n  \"password\": \"password\"\r\n}",
+					"raw": "{\r\n  \"username\": \"HGibbs\",\r\n  \"password\": \"Testing@01\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

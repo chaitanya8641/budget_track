@@ -10,7 +10,7 @@ namespace BudgetTrack.Domain.Entities
         public Guid UserAccountBalanceId { get; set; }
         public Guid UserId { get; set; }
         public decimal AccounrBalance { get; set; }
-        public TransactionType Type { get; set; }
+        public string Type { get; set; } = null!;
 
         [ForeignKey("UserId")]
         public User User { get; set; } = null!;

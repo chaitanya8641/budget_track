@@ -149,7 +149,7 @@ static void CreateUser(WebApplication app)
         {
             Id = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
             UserName = "HGibbs",
-            Password = "password"
+            Password = "Testing@01"
         }
     };
 
@@ -176,7 +176,7 @@ static void CreateUserTransaction(WebApplication app)
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now,
             TransactionAmount = 100,
-            Type = TransactionType.Debit
+            Type = TransactionType.Debit.ToString(),
         }
     };
 
@@ -199,14 +199,14 @@ static void CreateUserAccountBalance(WebApplication app)
         {
             UserAccountBalanceId = new Guid("3fa85f64-5717-4562-b3fc-3c963f66afb7"),
             UserId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
-            Type = TransactionType.Debit,
+            Type = TransactionType.Debit.ToString(),
             AccounrBalance = 34000
         },
         new UserAccountBalance
         {
             UserAccountBalanceId = new Guid("3fa85f64-7777-4562-b3fc-3c963f66afb7"),
             UserId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
-            Type = TransactionType.Credit,
+            Type = TransactionType.Credit.ToString(),
             AccounrBalance = 50000
         }
     };

@@ -14,10 +14,19 @@ namespace BudgetTrack.API.Controllers
         {
             _userAccountBalanceService = userAccountBalanceService;
         }
-        [HttpGet("GetAccountBalance")]
-        public async Task<IActionResult> GetAccountBalance(Guid userId, string type)
+
+        [HttpGet("GetDebitAccountBalance")]
+        public async Task<IActionResult> GetDebitAccountBalance()
         {
-            var accountBalabce = await _userAccountBalanceService.GetBalance(type, userId);
+            var userId = Guid.Parse(GetUserId());
+            var accountBalabce = await _userAccountBalanceService.GetDebitAccountBalance(userId);
+            return Ok(accountBalabce);
+        }
+        [HttpGet("GetCreditAccountBalance")]
+        public async Task<IActionResult> GetCreditAccountBalance()
+        {
+            var userId = Guid.Parse(GetUserId());
+            var accountBalabce = await _userAccountBalanceService.GetCreditAccountBalance(userId);
             return Ok(accountBalabce);
         }
     }

@@ -2,6 +2,7 @@
 {
     public interface IUserAccountBalanceService
     {
-        Task<decimal> GetBalance(string accountType, Guid userId);
+        Task<decimal> GetDebitAccountBalance(Guid userId);
+        Task<decimal> GetCreditAccountBalance(Guid userId);
     }
 }

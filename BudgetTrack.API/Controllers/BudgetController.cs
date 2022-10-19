@@ -3,6 +3,7 @@ using BudgetTrack.BAL.Interfaces;
 using BudgetTrack.Domain.DTOs.Transactions;
 using BudgetTrack.Domain.DTOs.Transactions.Request;
 using BudgetTrack.Domain.DTOs.Transactions.Response;
+using BudgetTrack.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -21,9 +22,10 @@ namespace BudgetTrack.API.Controllers
         }
 
         [HttpGet("GetTransactions")]
-        public async Task<IActionResult> GetUserTransactions(Guid userId, string? type)
+        public async Task<IActionResult> GetUserTransactions(string? type)
         {
-            var transactions = await _userTransactionService.GetUserTransactions(userId);
+            var userId = GetUserId();
+            var transactions = await _userTransactionService.GetUserTransactions(Guid.Parse(userId));
             if (type != null)
             {
                 transactions = transactions.Where(x => x.Type.ToString() == type.ToString());
@@ -31,14 +33,14 @@ namespace BudgetTrack.API.Controllers
             return Ok(transactions);
         }
 
-        [HttpPost("AddTransaction")]
-        public async Task<IActionResult> AddTransaction([FromBody] AddTransactionRequest AddTransactionRequest)
+        [HttpPost("AddDebitTransaction")]
+        public async Task<IActionResult> AddDebitTransaction([FromBody] AddTransactionRequest AddTransactionRequest)
         {
             AddUserTransactionDTO userTransactionDTO = new()
             {
                 TransactionName = AddTransactionRequest.TransactionName,
                 TransactionAmount = AddTransactionRequest.TransactionAmount,
-                Type = AddTransactionRequest.Type,
+                Type = TransactionType.Debit.ToString(),
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 UserId = Guid.Parse(GetUserId())
@@ -57,6 +59,33 @@ namespace BudgetTrack.API.Controllers
             return Ok(response);
         }
 
+        [HttpPost("AddCreditTransaction")]
+        public async Task<IActionResult> AddCreditTransaction([FromBody] AddTransactionRequest AddTransactionRequest)
+        {
+            AddUserTransactionDTO userTransactionDTO = new()
+            {
+                TransactionName = AddTransactionRequest.TransactionName,
+                TransactionAmount = AddTransactionRequest.TransactionAmount,
+                Type = TransactionType.Credit.ToString(),
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                UserId = Guid.Parse(GetUserId())
+            };
+            var transaction = await _userTransactionService.AddUserTransaction(userTransactionDTO);
+            if (transaction.TransactionId == Guid.Empty)
+            {
+                throw new HttpException(HttpStatusCode.NotFound, "User transaction not created successfully", $"TransactionAmount: {AddTransactionRequest.TransactionAmount}");
+            }
+            TransactionCommonResponse response = new()
+            {
+                TransactionId = transaction.TransactionId,
+                Message = "User transaction created successfully!"
+            };
+
+            return Ok(response);
+        }
+
+
         [HttpPost("UpdateTransaction")]
         public async Task<IActionResult> UpdateTransaction([FromBody] UpdateTransactionRequest updateTransactionRequest)
         {
@@ -72,7 +101,7 @@ namespace BudgetTrack.API.Controllers
                 TransactionId = transaction.TransactionId,
                 TransactionName = updateTransactionRequest.TransactionName,
                 TransactionAmount = updateTransactionRequest.TransactionAmount,
-                Type = updateTransactionRequest.Type,
+                Type = transaction.Type,
                 CreatedAt = transaction.CreatedAt,
                 UpdatedAt = DateTime.Now,
                 UserId = Guid.Parse(GetUserId())

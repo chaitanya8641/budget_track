@@ -7,6 +7,5 @@ namespace BudgetTrack.Domain.DTOs.UserAccountBalance
         public Guid UserAccountBalanceId { get; set; }
         public Guid UserId { get; set; }
         public decimal AccounrBalance { get; set; }
-        public TransactionType Type { get; set; }
     }
 }

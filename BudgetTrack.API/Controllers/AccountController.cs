@@ -22,6 +22,7 @@ namespace BudgetTrack.API.Controllers
             var accountBalabce = await _userAccountBalanceService.GetDebitAccountBalance(userId);
             return Ok(accountBalabce);
         }
+
         [HttpGet("GetCreditAccountBalance")]
         public async Task<IActionResult> GetCreditAccountBalance()
         {

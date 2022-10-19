@@ -16,9 +16,11 @@ namespace BudgetTrack.API.Controllers
     public class BudgetController : BaseController
     {
         private readonly IUserTransactionService _userTransactionService;
-        public BudgetController(IUserTransactionService userTransactionService, IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
+        private readonly IUserAccountBalanceService _userAccountBalanceService;
+        public BudgetController(IUserTransactionService userTransactionService, IUserAccountBalanceService userAccountBalanceService, IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             _userTransactionService = userTransactionService;
+            _userAccountBalanceService = userAccountBalanceService;
         }
 
         [HttpGet("GetTransactions")]
@@ -45,17 +47,23 @@ namespace BudgetTrack.API.Controllers
                 UpdatedAt = DateTime.Now,
                 UserId = Guid.Parse(GetUserId())
             };
+
             var transaction = await _userTransactionService.AddUserTransaction(userTransactionDTO);
+            var isAccountBalanceUpdate = await UpdateAccountBalance(AddTransactionRequest.TransactionAmount, transaction.UserId);
             if (transaction.TransactionId == Guid.Empty)
             {
                 throw new HttpException(HttpStatusCode.NotFound, "User transaction not created successfully", $"TransactionAmount: {AddTransactionRequest.TransactionAmount}");
             }
+            else if (!isAccountBalanceUpdate)
+            {
+                throw new HttpException(HttpStatusCode.BadRequest, "Account balance not upfated successfully", $"TransactionAmount: {transaction.TransactionId}");
+            }
+
             TransactionCommonResponse response = new()
             {
                 TransactionId = transaction.TransactionId,
                 Message = "User transaction created successfully!"
             };
-
             return Ok(response);
         }
 
@@ -71,11 +79,18 @@ namespace BudgetTrack.API.Controllers
                 UpdatedAt = DateTime.Now,
                 UserId = Guid.Parse(GetUserId())
             };
+
             var transaction = await _userTransactionService.AddUserTransaction(userTransactionDTO);
+            var isAccountBalanceUpdate = await UpdateAccountBalance(AddTransactionRequest.TransactionAmount, transaction.UserId);
             if (transaction.TransactionId == Guid.Empty)
             {
                 throw new HttpException(HttpStatusCode.NotFound, "User transaction not created successfully", $"TransactionAmount: {AddTransactionRequest.TransactionAmount}");
             }
+            else if (!isAccountBalanceUpdate)
+            {
+                throw new HttpException(HttpStatusCode.BadRequest, "Account balance not upfated successfully", $"TransactionAmount: {transaction.TransactionId}");
+            }
+
             TransactionCommonResponse response = new()
             {
                 TransactionId = transaction.TransactionId,
@@ -104,7 +119,7 @@ namespace BudgetTrack.API.Controllers
                 Type = transaction.Type,
                 CreatedAt = transaction.CreatedAt,
                 UpdatedAt = DateTime.Now,
-                UserId = Guid.Parse(GetUserId())
+                UserId = transaction.UserId
             };
             await _userTransactionService.UpdateUserTransaction(userTransactionDTO);
             TransactionCommonResponse response = new()
@@ -130,5 +145,13 @@ namespace BudgetTrack.API.Controllers
             }
             throw new HttpException(HttpStatusCode.NotFound, "User not found", $"Transaction Id: {transactionId}");
         }
+
+        private async Task<bool> UpdateAccountBalance(decimal transactionAmount, Guid userId)
+        {
+            var accountBalance = await _userAccountBalanceService.GetDebitAccountBalance(userId);
+            accountBalance.AccountBalance -= transactionAmount;
+            return await _userAccountBalanceService.UpdateAccountBalance(accountBalance);
+        }
+
     }
 }

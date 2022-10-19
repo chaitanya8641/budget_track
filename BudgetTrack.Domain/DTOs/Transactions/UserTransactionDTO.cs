@@ -1,6 +1,4 @@
-﻿using BudgetTrack.Domain.Enums;
-
-namespace BudgetTrack.Domain.DTOs.Transactions
+﻿namespace BudgetTrack.Domain.DTOs.Transactions
 {
     public class UserTransactionDTO
     {

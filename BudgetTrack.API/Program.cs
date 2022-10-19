@@ -200,14 +200,14 @@ static void CreateUserAccountBalance(WebApplication app)
             UserAccountBalanceId = new Guid("3fa85f64-5717-4562-b3fc-3c963f66afb7"),
             UserId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
             Type = TransactionType.Debit.ToString(),
-            AccounrBalance = 34000
+            AccountBalance = 34000
         },
         new UserAccountBalance
         {
             UserAccountBalanceId = new Guid("3fa85f64-7777-4562-b3fc-3c963f66afb7"),
             UserId = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
             Type = TransactionType.Credit.ToString(),
-            AccounrBalance = 50000
+            AccountBalance = 50000
         }
     };
 

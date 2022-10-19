@@ -50,12 +50,12 @@ namespace BudgetTrack.DAL
 
         public async Task<List<TEntity>> GetList(Expression<Func<TEntity, bool>> filter)
         {
-            return await (filter == null ? _budgetDbContext.Set<TEntity>().ToListAsync() : _budgetDbContext.Set<TEntity>().Where(filter).ToListAsync());
+            return await (filter == null ? _budgetDbContext.Set<TEntity>().AsNoTracking().ToListAsync() : _budgetDbContext.Set<TEntity>().Where(filter).AsNoTracking().ToListAsync());
         }
 
         public async Task<TEntity> Get(Expression<Func<TEntity, bool>> filter)
         {
-            var result = await _budgetDbContext.Set<TEntity>().FirstOrDefaultAsync(filter);
+            var result = await _budgetDbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(filter);
             if (result == null)
                 return new TEntity();
 

@@ -1,8 +1,12 @@
-﻿namespace BudgetTrack.BAL.Interfaces
+﻿
+using BudgetTrack.Domain.DTOs.UserAccountBalance;
+
+namespace BudgetTrack.BAL.Interfaces
 {
     public interface IUserAccountBalanceService
     {
-        Task<decimal> GetDebitAccountBalance(Guid userId);
-        Task<decimal> GetCreditAccountBalance(Guid userId);
+        Task<UserAccountBalanceDTO> GetDebitAccountBalance(Guid userId);
+        Task<UserAccountBalanceDTO> GetCreditAccountBalance(Guid userId);
+        Task<bool> UpdateAccountBalance(UserAccountBalanceDTO userAccountBalanceDTO);
     }
 }

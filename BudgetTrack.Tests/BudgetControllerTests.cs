@@ -70,7 +70,7 @@ namespace BudgetTrack.Tests
         public async Task UpdateTransaction_WhenCalledWithInValidTransactionId_ReturnsFailure2()
         {
             await PerformLogin("HGibbs", "password");
-            var addTransation = new UserUpdateTransactionDTO { TransactionId = Guid.Parse("3fa85f64-5717-9999-b3f7-2c963f66afa6"), TransactionName = "Online2", TransactionAmount = 100, Type = 0 };
+            var addTransation = new UserUpdateTransactionDTO { TransactionId = Guid.Parse("3fa85f64-5717-9999-b3f7-2c963f66afa6"), TransactionName = "Online2", TransactionAmount = 100 };
             var response = await _client.PostAsJsonAsync<AddUserTransactionDTO>("/api/Budget/UpdateTransaction", addTransation);
             Assert.False(response.IsSuccessStatusCode);
         }

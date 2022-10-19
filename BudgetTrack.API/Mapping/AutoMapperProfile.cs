@@ -16,6 +16,7 @@ namespace BudgetTrack.API.Mapping
             CreateMap<UpdateTransactionRequest, UserTransaction>().ReverseMap();
 
             CreateMap<UserAccountBalanceDTO, UserAccountBalance>().ReverseMap();
+            CreateMap<UpdateAccountBalanceDTO, UserAccountBalance>().ReverseMap();
         }
     }
 }

@@ -1,0 +1,42 @@
+{
+  "ts-node": {
+    "transpileOnly": true,
+    "require": [
+      // set this so you dont need to use ts-node -r
+      "typescript-transform-paths/register",
+      "tsconfig-paths/register"
+    ]
+  },
+  "compilerOptions": {
+    "target": "es6",
+    "types": ["node"],
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "composite": true,
+    "rootDir": ".",
+    "baseUrl": "src",
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      }
+    ]
+  },
+  "include": ["**/*.ts", "**/*.tsx", "src"],
+  "exclude": ["node_modules"],
+  "extends": "./tsconfig.paths.json"
+}

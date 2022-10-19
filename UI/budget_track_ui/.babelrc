@@ -1,0 +1,33 @@
+{
+  "presets": ["@babel/preset-typescript"],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "alias": {
+          "providers/*": ["./providers/*"],
+          "components/*": ["./components/*"],
+          "pages/*": ["./pages/*"],
+          "util/*": ["./util/*"],
+          "hooks/*": ["./hooks/*"],
+          "assets/*": ["./assets/*"],
+          "services/*": ["./services/*"],
+          "config/*": ["./config/*"],
+          "context/*": ["./context/*"],
+          "lib/*": ["./src/lib/*"],
+          "models/*": ["./models/*"]
+        }
+      }
+    ],
+    [
+      "babel-plugin-styled-components",
+      {
+        "ssr": true,
+        "displayName": true,
+        "preprocess": false
+      }
+    ]
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "providers/*": ["./providers/*"],
+      "components/*": ["./components/*"],
+      "pages/*": ["./pages/*"],
+      "util/*": ["./util/*"],
+      "hooks/*": ["./hooks/*"],
+      "assets/*": ["./assets/*"],
+      "services/*": ["./services/*"],
+      "config/*": ["./config/*"],
+      "context/*": ["./context/*"],
+      "lib/*": ["./lib/*"],
+      "models/*": ["./models/*"]
+    }
+  }
+}

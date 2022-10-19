@@ -1,0 +1,124 @@
+html {
+  font-family: "Rubik", sans-serif !important;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0 !important;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+.container-view {
+  margin: auto 0;
+  padding: 20px;
+}
+
+.actions-container {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.actions-container p {
+  cursor: pointer;
+  color: #5da8dc;
+}
+
+.actions-container p:hover {
+  color: #85b7fa;
+  text-decoration: underline;
+}
+
+.actions-container-delete{ 
+  color: #d81d40 !important;
+}
+
+.color-blue{ 
+  color: #5da8dc !important;
+}
+
+.actions-container-delete:hover{
+  color: #ee3f65 !important;
+  text-decoration: underline;
+}
+
+.dropdown-menu {
+  z-index: 999;
+}
+
+.custom-floatRight {
+  float: right !important;
+}
+
+.table td,
+.table tr,
+.table th {
+  border: 1px solid #ccc;
+}
+.table th:before {
+  content: " ";
+  border: 0.5px solid #ccc;
+  width: 99.7%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.table th:after {
+  content: " ";
+  border: 0.5px solid #ccc;
+  width: 99.7%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.table td {
+  padding: 15px;
+}
+
+.table-button-tray {
+  padding: 15px 0px 20px 0px; 
+  display: flex;
+  justify-content: flex-end;
+}
+
+.table-button {
+  margin: 5px;
+}
+
+.MuiGrid-grid-md-6,
+.MuiGrid-grid-sm-6,
+.MuiGrid-grid-lg-6,
+.MuiGrid-grid-xs-6,
+.MuiGrid-grid-md-12,
+.MuiGrid-grid-sm-12,
+.MuiGrid-grid-lg-12,
+.MuiGrid-grid-xs-12,
+.MuiGrid-grid-md-4,
+.MuiGrid-grid-sm-4,
+.MuiGrid-grid-lg-4,
+.MuiGrid-grid-xs-4 {
+  padding: 0 15px 0 0;
+}
+.MuiGrid-spacing-xs-3 {
+  width: 100% !important;
+}
+
+
+.custom-marginTop30 {
+  margin-top: 30px !important;
+}
